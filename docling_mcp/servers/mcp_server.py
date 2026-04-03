@@ -80,6 +80,11 @@ def main(
     logger.info("starting up Docling MCP-server ...")
     mcp.settings.host = host
     mcp.settings.port = port
+
+    # When host is "0.0.0.0", we need to allow any valid connection
+    if host == "0.0.0.0" and mcp.settings.transport_security:
+        mcp.settings.transport_security.enable_dns_rebinding_protection = False
+    
     mcp.run(transport=transport.value)
 
 
